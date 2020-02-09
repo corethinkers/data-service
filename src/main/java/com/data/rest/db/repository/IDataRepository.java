@@ -3,13 +3,21 @@
  */
 package com.data.rest.db.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import com.data.rest.db.entity.Data;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.data.rest.db.entity.CustomerInfo;
 
 /**
  * @author
  */
-public interface IDataRepository extends JpaRepository<Data, Long> {
-
+@Repository
+public interface IDataRepository extends JpaRepository<CustomerInfo, Long> {
+	
+	@Query(value = "SELECT * FROM [dbo].[customerinfo]", nativeQuery = true)
+	List<CustomerInfo> getAllInfo();
+	
 }
