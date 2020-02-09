@@ -21,4 +21,9 @@ public interface IDataService {
 	void addData();
 	
 	List<CustomerInfo> getAllInfo();
+	
+    List getFilterData(String id);
+    
+	boolean save(Object entity);
+	
 }
