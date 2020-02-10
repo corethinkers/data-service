@@ -5,84 +5,103 @@ package com.data.rest.service.impl;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceUnit;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import com.data.rest.db.entity.CustomerInfo;
-import com.data.rest.db.repository.IDataRepository;
+import com.data.rest.db.entity.ClassicTypeTest;
+import com.data.rest.db.entity.IndexTestTable;
+import com.data.rest.db.entity.LargeTestTable;
+import com.data.rest.db.repository.ClassicTypeTestRepository;
+import com.data.rest.db.repository.IndexTestTableRepository;
+import com.data.rest.db.repository.LargeTestTableRepository;
 import com.data.rest.service.IDataService;
 
 /**
- * @author 
+ * @author
  */
 @Service
 public class DataServiceImpl implements IDataService {
 
 	@Autowired
-	private IDataRepository dataRepository;
+	private ClassicTypeTestRepository classicTypeTestRepository;
+
+	@Autowired
+	private IndexTestTableRepository indexTestTableRepository;
 	
+	@Autowired
+	private LargeTestTableRepository largeTestTableRepository;
+
 	/**
-	 * @see com.data.rest.service.IDataService#addData()
+	 * @see com.data.rest.service.IDataService#addDataIntoClassicTypeTest(com.data.rest.db.entity.ClassicTypeTest)
 	 */
 	@Override
-	public void addData() {
-
+	public void addDataIntoClassicTypeTest(ClassicTypeTest classicTypeTest) {
+		classicTypeTestRepository.save(classicTypeTest);
 	}
 
+	/**
+	 * @see com.data.rest.service.IDataService#addDataIntoIndexTestTable(com.data.rest.db.entity.IndexTestTable)
+	 */
 	@Override
-	public List<CustomerInfo> getAllInfo() {
-		
-		return dataRepository.getAllInfo();
+	public void addDataIntoIndexTestTable(IndexTestTable indexTestTable) {
+		indexTestTableRepository.save(indexTestTable);
 	}
 
+	/**
+	 * @see com.data.rest.service.IDataService#addDataIntoLargeTestTable(com.data.rest.db.entity.LargeTestTable)
+	 */
 	@Override
-	public List getFilterData(String id) {
-		return dataRepository.getFilterData(id);
+	public void addDataIntoLargeTestTable(LargeTestTable largeTestTable) {
+		largeTestTableRepository.save(largeTestTable);
 	}
-	
-	@PersistenceUnit
-	private EntityManagerFactory entityManagerFactory;
 
+	/**
+	 * @see com.data.rest.service.IDataService#getFilterDataFromClassicTypeTest()
+	 */
 	@Override
-	@Transactional
-	public boolean save(Object entity) {
-		boolean success = false;
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
-		EntityTransaction tx = null;
-		try {
-			tx = entityManager.getTransaction();
-			tx.begin();
-			entityManager.persist(entity);
-			tx.commit();
-			success = true;
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			String errorMessage = e.getMessage();
-			if (e instanceof ConstraintViolationException) {
-				ConstraintViolationException ex = (ConstraintViolationException) e;
-				if (!CollectionUtils.isEmpty(ex.getConstraintViolations())
-						&& ex.getConstraintViolations().iterator().hasNext()) {
-					errorMessage = ex.getConstraintViolations().iterator().next().getMessage();
-				}
-			} else if (e.getCause() != null
-					&& e.getCause() instanceof org.hibernate.exception.ConstraintViolationException
-					&& e.getCause().getCause() != null) {
-				errorMessage = e.getCause().getCause().getMessage();
-			}
-		} finally {
-			entityManager.close();
-		}
-		return success;
+	public List<ClassicTypeTest> getFilterDataFromClassicTypeTest(String id) {
+		return classicTypeTestRepository.getFilterData(id);
+	}
+
+	/**
+	 * @see com.data.rest.service.IDataService#getFilterDataFromIndexTestTable()
+	 */
+	@Override
+	public List<IndexTestTable> getFilterDataFromIndexTestTable(String id) {
+		return indexTestTableRepository.getFilterData(id);
+	}
+
+	/**
+	 * @see com.data.rest.service.IDataService#getFilterDataFromLargeTestTable()
+	 */
+	@Override
+	public List<LargeTestTable> getFilterDataFromLargeTestTable(String id) {
+		return largeTestTableRepository.getFilterData(id);
+	}
+
+	/**
+	 * @see com.data.rest.service.IDataService#getAllClassicTypeTest()
+	 */
+	@Override
+	public List<ClassicTypeTest> getAllClassicTypeTest() {
+		return classicTypeTestRepository.findAll();
+	}
+
+	/**
+	 * @see com.data.rest.service.IDataService#getAllIndexTestTable()
+	 */
+	@Override
+	public List<IndexTestTable> getAllIndexTestTable() {
+		return indexTestTableRepository.findAll();
+	}
+
+	/**
+	 * @see com.data.rest.service.IDataService#getAllLargeTestTable()
+	 */
+	@Override
+	public List<LargeTestTable> getAllLargeTestTable() {
+		return largeTestTableRepository.findAll();
 	}
 	
 }
