@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.data.rest.db.entity.ClassicTypeTest;
-import com.data.rest.db.entity.IndexTestTable;
-import com.data.rest.db.entity.LargeTestTable;
+import com.data.rest.dto.CoverageOption;
+import com.data.rest.dto.Fee;
+import com.data.rest.dto.InvoiceJsonDTO;
+import com.data.rest.dto.MemberDetail;
 import com.data.rest.service.IDataService;
 
 /**
@@ -28,53 +30,29 @@ public class DataServiceController {
 	@Autowired
 	private IDataService dataService;
 
-	@PostMapping("add/classic")
+	@PostMapping("add/invoiceS")
 	public ResponseEntity<ClassicTypeTest> addDataIntoClassicTypeTest(@RequestBody ClassicTypeTest classicTypeTest) {
 		dataService.addDataIntoClassicTypeTest(classicTypeTest);
 		return new ResponseEntity<>(classicTypeTest, HttpStatus.CREATED);
 	}
-
-	@GetMapping("classic/{customerId}")
-	public @ResponseBody List<ClassicTypeTest> getFilterDataFromClassicTypeTest(@PathVariable("customerId") String id) {
-		return dataService.getFilterDataFromClassicTypeTest(id);
-	}
 	
-	@GetMapping("classic/all")
-	public @ResponseBody List<ClassicTypeTest> getAllClassicData() {
+	@GetMapping("get/invoice/list")
+	public @ResponseBody List<InvoiceJsonDTO> getAllClassicData() {
 		return dataService.getAllClassicTypeTest();
 	}
 	
-	
-	@PostMapping("add/indexTest")
-	public ResponseEntity<IndexTestTable> addDataIntoIndexTestTable(@RequestBody IndexTestTable indexTestTable) {
-		dataService.addDataIntoIndexTestTable(indexTestTable);
-		return new ResponseEntity<>(indexTestTable, HttpStatus.CREATED);
-	}
-
-	@GetMapping("index/{customerId}")
-	public @ResponseBody List<IndexTestTable> getFilterDataFromIndexTestTable(@PathVariable("customerId") String id) {
-		return dataService.getFilterDataFromIndexTestTable(id);
-	}
-
-	@GetMapping("index/all")
-	public @ResponseBody List<IndexTestTable> getAllIndexTestData() {
-		return dataService.getAllIndexTestTable();
+	@GetMapping("get/invoice/fee/{divisionNumber}")
+	public @ResponseBody List<Fee>  getFeeDetailsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
+		return dataService.getFeeDetailsFromInvoiceByDivisionNumber(divisionNumber);
 	}
 	
-	@PostMapping("add/large")
-	public ResponseEntity<LargeTestTable> addDataIntoLargeTestTable(@RequestBody LargeTestTable largeTestTable) {
-		dataService.addDataIntoLargeTestTable(largeTestTable);
-		return new ResponseEntity<>(largeTestTable, HttpStatus.CREATED);
+	@GetMapping("get/invoice/memberdetail/{divisionNumber}")
+	public @ResponseBody List<MemberDetail> getMemberDetailsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
+		return dataService.getMemberDetailsFromInvoiceByDivisionNumber(divisionNumber);
 	}
 
-	@GetMapping("large/{customerId}")
-	public @ResponseBody List<LargeTestTable> getFilterDataFromLargeTestTable(@PathVariable("customerId") String id) {
-		return dataService.getFilterDataFromLargeTestTable(id);
+	@GetMapping("get/invoice/coverageoptions/{divisionNumber}")
+	public @ResponseBody List<CoverageOption> getCoverageOptionsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
+		return dataService.getCoverageOptionsFromInvoiceByDivisionNumber(divisionNumber);
 	}
-	
-	@GetMapping("large/all")
-	public @ResponseBody List<LargeTestTable> getAllLargeData() {
-		return dataService.getAllLargeTestTable();
-	}
-
 }

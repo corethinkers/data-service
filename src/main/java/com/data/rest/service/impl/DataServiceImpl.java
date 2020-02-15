@@ -3,19 +3,21 @@
  */
 package com.data.rest.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.data.rest.db.entity.ClassicTypeTest;
-import com.data.rest.db.entity.IndexTestTable;
-import com.data.rest.db.entity.LargeTestTable;
 import com.data.rest.db.repository.ClassicTypeTestRepository;
-import com.data.rest.db.repository.IndexTestTableRepository;
-import com.data.rest.db.repository.LargeTestTableRepository;
+import com.data.rest.dto.CoverageOption;
+import com.data.rest.dto.Fee;
+import com.data.rest.dto.InvoiceJsonDTO;
+import com.data.rest.dto.MemberDetail;
 import com.data.rest.service.IDataService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author
@@ -26,12 +28,6 @@ public class DataServiceImpl implements IDataService {
 	@Autowired
 	private ClassicTypeTestRepository classicTypeTestRepository;
 
-	@Autowired
-	private IndexTestTableRepository indexTestTableRepository;
-	
-	@Autowired
-	private LargeTestTableRepository largeTestTableRepository;
-
 	/**
 	 * @see com.data.rest.service.IDataService#addDataIntoClassicTypeTest(com.data.rest.db.entity.ClassicTypeTest)
 	 */
@@ -41,67 +37,80 @@ public class DataServiceImpl implements IDataService {
 	}
 
 	/**
-	 * @see com.data.rest.service.IDataService#addDataIntoIndexTestTable(com.data.rest.db.entity.IndexTestTable)
-	 */
-	@Override
-	public void addDataIntoIndexTestTable(IndexTestTable indexTestTable) {
-		indexTestTableRepository.save(indexTestTable);
-	}
-
-	/**
-	 * @see com.data.rest.service.IDataService#addDataIntoLargeTestTable(com.data.rest.db.entity.LargeTestTable)
-	 */
-	@Override
-	public void addDataIntoLargeTestTable(LargeTestTable largeTestTable) {
-		largeTestTableRepository.save(largeTestTable);
-	}
-
-	/**
 	 * @see com.data.rest.service.IDataService#getFilterDataFromClassicTypeTest()
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<ClassicTypeTest> getFilterDataFromClassicTypeTest(String id) {
-		return classicTypeTestRepository.getFilterData(id);
-	}
-
-	/**
-	 * @see com.data.rest.service.IDataService#getFilterDataFromIndexTestTable()
-	 */
-	@Override
-	public List<IndexTestTable> getFilterDataFromIndexTestTable(String id) {
-		return indexTestTableRepository.getFilterData(id);
-	}
-
-	/**
-	 * @see com.data.rest.service.IDataService#getFilterDataFromLargeTestTable()
-	 */
-	@Override
-	public List<LargeTestTable> getFilterDataFromLargeTestTable(String id) {
-		return largeTestTableRepository.getFilterData(id);
+	public List<Fee> getFeeDetailsFromInvoiceByDivisionNumber(String divisionNumber) {
+		List result = classicTypeTestRepository.getFeeDetailsFromInvoiceByDivisionNumber(divisionNumber);
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Fee> listOfFeeDTO = new ArrayList<Fee>();
+		result.forEach(res -> {
+			Fee fee;
+			try {
+				fee = objectMapper.readValue(res.toString(), Fee.class);
+				listOfFeeDTO.add(fee);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		});
+		return listOfFeeDTO;
 	}
 
 	/**
 	 * @see com.data.rest.service.IDataService#getAllClassicTypeTest()
 	 */
 	@Override
-	public List<ClassicTypeTest> getAllClassicTypeTest() {
-		return classicTypeTestRepository.findAll();
+	public List<InvoiceJsonDTO> getAllClassicTypeTest() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<InvoiceJsonDTO> listOfInvoiceJsonDTO = new ArrayList<InvoiceJsonDTO>();
+		List<ClassicTypeTest> result = classicTypeTestRepository.findAll();
+		result.forEach(classicTypeTest -> {
+			InvoiceJsonDTO invoiceJsonDTO;
+			try {
+				invoiceJsonDTO = objectMapper.readValue(classicTypeTest.getJsonObject(), InvoiceJsonDTO.class);
+				listOfInvoiceJsonDTO.add(invoiceJsonDTO);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		});
+		return listOfInvoiceJsonDTO;
 	}
 
-	/**
-	 * @see com.data.rest.service.IDataService#getAllIndexTestTable()
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<IndexTestTable> getAllIndexTestTable() {
-		return indexTestTableRepository.findAll();
+	public List<MemberDetail> getMemberDetailsFromInvoiceByDivisionNumber(String divisionNumber) {
+		List result = classicTypeTestRepository.getMemberDetailsFromInvoiceByDivisionNumber(divisionNumber);
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<MemberDetail> listOfMemberDetailDTO = new ArrayList<MemberDetail>();
+		result.forEach(res -> {
+			MemberDetail memberDetail;
+			try {
+				memberDetail = objectMapper.readValue(res.toString(), MemberDetail.class);
+				listOfMemberDetailDTO.add(memberDetail);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		});
+		return listOfMemberDetailDTO;
 	}
 
-	/**
-	 * @see com.data.rest.service.IDataService#getAllLargeTestTable()
-	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public List<LargeTestTable> getAllLargeTestTable() {
-		return largeTestTableRepository.findAll();
+	public List<CoverageOption> getCoverageOptionsFromInvoiceByDivisionNumber(String divisionNumber) {
+		List result = classicTypeTestRepository.getCoverageOptionsFromInvoiceByDivisionNumber(divisionNumber);
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<CoverageOption> listOfCoverageOptionDTO = new ArrayList<CoverageOption>();
+		result.forEach(res -> {
+			CoverageOption coverageOption;
+			try {
+				coverageOption = objectMapper.readValue(res.toString(), CoverageOption.class);
+				listOfCoverageOptionDTO.add(coverageOption);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		});
+		return listOfCoverageOptionDTO;
 	}
-	
+
 }

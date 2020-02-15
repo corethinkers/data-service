@@ -8,8 +8,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.data.rest.db.entity.ClassicTypeTest;
-import com.data.rest.db.entity.IndexTestTable;
-import com.data.rest.db.entity.LargeTestTable;
+import com.data.rest.dto.CoverageOption;
+import com.data.rest.dto.Fee;
+import com.data.rest.dto.InvoiceJsonDTO;
+import com.data.rest.dto.MemberDetail;
 
 /**
  * @author
@@ -18,21 +20,14 @@ import com.data.rest.db.entity.LargeTestTable;
 public interface IDataService {
 
 	void addDataIntoClassicTypeTest(ClassicTypeTest classicTypeTest);
+	
+	List<InvoiceJsonDTO> getAllClassicTypeTest();
+	
+	List<Fee> getFeeDetailsFromInvoiceByDivisionNumber(String divisionNumber);
 
-	void addDataIntoIndexTestTable(IndexTestTable indexTestTable);
-
-	void addDataIntoLargeTestTable(LargeTestTable largeTestTable);
-
-	List<ClassicTypeTest> getFilterDataFromClassicTypeTest(String id);
-
-	List<IndexTestTable> getFilterDataFromIndexTestTable(String id);
-
-	List<LargeTestTable> getFilterDataFromLargeTestTable(String id);
-
-	List<ClassicTypeTest> getAllClassicTypeTest();
-
-	List<IndexTestTable> getAllIndexTestTable();
-
-	List<LargeTestTable> getAllLargeTestTable();
-
+	List<MemberDetail> getMemberDetailsFromInvoiceByDivisionNumber(String divisionNumber);
+	
+	List<CoverageOption> getCoverageOptionsFromInvoiceByDivisionNumber(String divisionNumber);
+	
+	
 }

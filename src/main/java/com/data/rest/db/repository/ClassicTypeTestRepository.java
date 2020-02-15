@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.data.rest.db.repository;
 
 import java.util.List;
@@ -10,20 +7,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.data.rest.db.entity.ClassicTypeTest;
+import com.data.utils.ClassicTypeTestConstants;
 
 /**
- * @author
+ * @author 
  */
 @Repository
 public interface ClassicTypeTestRepository extends JpaRepository<ClassicTypeTest, Long> {
-
-	@Query(value = "SELECT JSON_VALUE(json_object, '$.groupSummary[0].adjustmentAmount') as adjustmentAmount, \r\n" +
-			"JSON_VALUE(json_object, '$.groupSummary[0].amount') as amount,\r\n" +
-			"JSON_VALUE(json_object, '$.groupSummary[0].divisionSummary[0].divisionNumber') as divisionSummary,\r\n" +
-			"JSON_VALUE(json_object, '$.groupSummary[0].divisionSummary[0].memberDetails[0].coverageEffectiveDate') as coverageEffectiveDate,\r\n" +
-			"JSON_VALUE(json_object, '$.groupSummary[0].divisionSummary[0].memberDetails[0].firstName') as memberName \r\n" +
-			"FROM indextesttable\r\n" +
-			"WHERE JSON_VALUE(json_object, '$.id') = ?1", nativeQuery = true)
-	List getFilterData(String id);
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_FEE_FROM_INVOICE_BY_DIVISION_NUMBER + "?1", nativeQuery = true)
+	List getFeeDetailsFromInvoiceByDivisionNumber(String divisionNumber); 
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_COVERAGE_OPTIONS_FROM_INVOICE_BY_DIVISION_NUMBER + "?1", nativeQuery = true)
+	List getCoverageOptionsFromInvoiceByDivisionNumber(String divisionNumber);
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_MEMBER_DETAILS_FROM_INVOICE_BY_DIVISION_NUMBER + "?1", nativeQuery = true)
+	List getMemberDetailsFromInvoiceByDivisionNumber(String divisionNumber);
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_ALL_DIVISION_SUMMARY_FROM_INVOICE_BY_DIVISION_NUMBER + "?1", nativeQuery = true)
+	List getAllDivisionSummaryFromInvoiceByDivisionNumber(String divisionNumber);
+	
 	
 }
