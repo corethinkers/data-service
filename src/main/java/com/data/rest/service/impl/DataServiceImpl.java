@@ -4,8 +4,11 @@
 package com.data.rest.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,7 @@ import com.data.rest.dto.InvoiceJsonDTO;
 import com.data.rest.dto.MemberDetail;
 import com.data.rest.service.IDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -81,17 +85,16 @@ public class DataServiceImpl implements IDataService {
 	@Override
 	public List<MemberDetail> getMemberDetailsFromInvoiceByDivisionNumber(String divisionNumber) {
 		List result = classicTypeTestRepository.getMemberDetailsFromInvoiceByDivisionNumber(divisionNumber);
-		ObjectMapper objectMapper = new ObjectMapper();
 		List<MemberDetail> listOfMemberDetailDTO = new ArrayList<MemberDetail>();
-		result.forEach(res -> {
-			MemberDetail memberDetail;
+		ObjectMapper objectMapper = new ObjectMapper();
+		for (Object res : result)
 			try {
-				memberDetail = objectMapper.readValue(res.toString(), MemberDetail.class);
-				listOfMemberDetailDTO.add(memberDetail);
+				listOfMemberDetailDTO = objectMapper.readValue(res.toString(), new TypeReference<List<MemberDetail>>() {
+				});
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
-		});
+
 		return listOfMemberDetailDTO;
 	}
 
@@ -101,15 +104,14 @@ public class DataServiceImpl implements IDataService {
 		List result = classicTypeTestRepository.getCoverageOptionsFromInvoiceByDivisionNumber(divisionNumber);
 		ObjectMapper objectMapper = new ObjectMapper();
 		List<CoverageOption> listOfCoverageOptionDTO = new ArrayList<CoverageOption>();
-		result.forEach(res -> {
-			CoverageOption coverageOption;
+		for (Object res : result)
 			try {
-				coverageOption = objectMapper.readValue(res.toString(), CoverageOption.class);
-				listOfCoverageOptionDTO.add(coverageOption);
+				listOfCoverageOptionDTO = objectMapper.readValue(res.toString(),
+						new TypeReference<List<CoverageOption>>() {
+						});
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
-		});
 		return listOfCoverageOptionDTO;
 	}
 
