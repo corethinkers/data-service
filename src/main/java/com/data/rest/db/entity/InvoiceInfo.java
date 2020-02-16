@@ -5,8 +5,6 @@ package com.data.rest.db.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-
 /**
  * @author ArunJSR
  *
@@ -15,7 +13,7 @@ public class InvoiceInfo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	private String id;
 	private String invoiceNumber;
 	private String invoiceJson;
 	private String invoiceStatus;
@@ -26,13 +24,13 @@ public class InvoiceInfo implements Serializable{
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
