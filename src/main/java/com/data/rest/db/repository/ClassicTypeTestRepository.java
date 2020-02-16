@@ -27,5 +27,22 @@ public interface ClassicTypeTestRepository extends JpaRepository<ClassicTypeTest
 	@Query(value = ClassicTypeTestConstants.QUERY_ALL_DIVISION_SUMMARY_FROM_INVOICE_BY_DIVISION_NUMBER + "?1", nativeQuery = true)
 	List getAllDivisionSummaryFromInvoiceByDivisionNumber(String divisionNumber);
 	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_BILLING_ANALYST_CODE + "?1",nativeQuery = true)
+	List getInvoiceInfoByBillingAnalystCode();
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_ACCOUNT_NUMBER + "?1",nativeQuery = true)
+	List getInvoiceInfoByAccountNumber();
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_CUSTOMER_TYPE + "?1",nativeQuery = true)
+	List getInvoiceInfoByCustomerType();
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_GROUP_NAME + "?1",nativeQuery = true)
+	List getInvoiceInfoByGroupName();
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_BILL_GROUP_NUMBER + "?1",nativeQuery = true)
+	List getInvoiceInfoByBillingGroupNumber();
+	
+	@Query(value = ClassicTypeTestConstants.QUERY_INVOICE_INFO_BY_FINANCIAL_COMPANY_NAME + "?1",nativeQuery = true)
+	List getInvoiceInfoByFinancialCompanyName();
 	
 }
