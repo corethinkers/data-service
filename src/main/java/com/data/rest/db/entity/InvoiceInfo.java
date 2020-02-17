@@ -5,20 +5,37 @@ package com.data.rest.db.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * @author ArunJSR
  *
  */
+@Entity
+@Table(name = "invoice")
 public class InvoiceInfo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
+	@Column(name = "invoiceNumber")
 	private String invoiceNumber;
+	@Column(name = "invoiceJson")
 	private String invoiceJson;
+	@Column(name = "invoiceStatus")
 	private String invoiceStatus;
+	@Column(name = "invoiceCreatedDate")
 	private String invoiceCreatedDate;
+	@Column(name = "invoiceUpdatedDate")
 	private String invoiceUpdatedDate;
+	@Column(name = "lastUpdatedBy")
 	private String lastUpdatedBy;
 	
 	/**

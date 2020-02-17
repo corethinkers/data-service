@@ -3,22 +3,14 @@ package com.data.rest.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.data.rest.db.entity.ClassicTypeTest;
-import com.data.rest.dto.CoverageOption;
-import com.data.rest.dto.Fee;
 import com.data.rest.dto.InvoiceJsonDTO;
-import com.data.rest.dto.MemberDetail;
 import com.data.rest.service.IDataService;
 
 /**
@@ -32,29 +24,63 @@ public class DataServiceController {
 	@Autowired
 	private IDataService dataService;
 
-	@PostMapping("add/invoiceS")
-	public ResponseEntity<ClassicTypeTest> addDataIntoClassicTypeTest(@RequestBody ClassicTypeTest classicTypeTest) {
-		dataService.addDataIntoClassicTypeTest(classicTypeTest);
-		return new ResponseEntity<>(classicTypeTest, HttpStatus.CREATED);
+	@GetMapping("get/list")
+	public @ResponseBody List<InvoiceJsonDTO> getAllInvoiceData() {
+		return dataService.getAllInvoiceData();
 	}
 	
-	@GetMapping("get/invoice/list")
-	public @ResponseBody List<InvoiceJsonDTO> getAllClassicData() {
-		return dataService.getAllClassicTypeTest();
+	@GetMapping("get/invoiceById/{id}")
+	public @ResponseBody List  getinvoiceDetailsById(@PathVariable("id") String id) {
+		return dataService.getInvoiceDetailsById(id);
 	}
 	
-	@GetMapping("get/invoice/fee/{divisionNumber}")
-	public @ResponseBody List<Fee>  getFeeDetailsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
-		return dataService.getFeeDetailsFromInvoiceByDivisionNumber(divisionNumber);
+	@GetMapping("get/invoiceByInvoiceNumber/{invoiceNumber}")
+	public @ResponseBody List  getinvoiceDetailsByInvoiceNumber(@PathVariable("invoiceNumber") String invoiceNumber) {
+		return dataService.getInvoiceDetailsByInvoiceNumber(invoiceNumber);
 	}
 	
-	@GetMapping("get/invoice/memberdetail/{divisionNumber}")
-	public @ResponseBody List<MemberDetail> getMemberDetailsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
-		return dataService.getMemberDetailsFromInvoiceByDivisionNumber(divisionNumber);
+	@GetMapping("get/invoiceByStatus/{status}")
+	public @ResponseBody List  getinvoiceDetailsByStatus(@PathVariable("status") String status) {
+		return dataService.getInvoiceDetailsByInvoiceStatus(status);
 	}
-
-	@GetMapping("get/invoice/coverageoptions/{divisionNumber}")
-	public @ResponseBody List<CoverageOption> getCoverageOptionsFromInvoiceByDivisionNumber(@PathVariable("divisionNumber") String divisionNumber) {
-		return dataService.getCoverageOptionsFromInvoiceByDivisionNumber(divisionNumber);
+	
+	@GetMapping("get/invoiceByInvoiceGenerationDate/{startDate}/{endDate}")
+	public @ResponseBody List  getinvoiceDetailsByInvoiceGenerationDate(@PathVariable("startDate") String startDate,@PathVariable("endDate") String endDate) {
+		return dataService.getInvoiceDetailsByInvoiceGenerationDate(startDate, endDate);
+	}
+	
+	@GetMapping("get/searchInvoiceByBillingAnalystCode/{code}")
+	public @ResponseBody List  getinvoiceDetailsByBillingAnalystCode(@PathVariable("code") String code) {
+		return dataService.getInvoiceDetailsByBillingAnalystCode(code);
+	}
+	
+	@GetMapping("get/searchInvoiceByGroupNumber/{groupNumber}")
+	public @ResponseBody List  getinvoiceDetailsByGroupNumber(@PathVariable("groupNumber") String groupNumber) {
+		return dataService.getInvoiceDetailsByGroupNumber(groupNumber);
+	}
+	
+	@GetMapping("get/searchInvoiceByCustomerType/{type}")
+	public @ResponseBody List  getinvoiceDetailsByCustomerType(@PathVariable("type") String type) {
+		return dataService.getInvoiceDetailsByCustomerType(type);
+	}
+	
+	@GetMapping("get/searchGroupDetailsByAmountRange/{startRange}/{endRange}")
+	public @ResponseBody List  getGroupDetailsByAmountRange(@PathVariable("startRange") double startRange,@PathVariable("endRange") double endRange) {
+		return dataService.getGroupDetailsByAmountRange(startRange, endRange);
+	}
+	
+	@GetMapping("get/searchMemberinfoByFirstName/{firstName}")
+	public @ResponseBody List  getMemberDetailsByFirstName(@PathVariable("firstName") String firstName) {
+		return dataService.getMemberDetailsByFirstName(firstName);
+	}
+	
+	@GetMapping("get/searchMemberinfoByLastName/{lastName}")
+	public @ResponseBody List  getMemberDetailsByLastName(@PathVariable("lastName") String lastName) {
+		return dataService.getMemberDetailsByLastName(lastName);
+	}
+	
+	@GetMapping("get/searchMemberinfoByMemberId/{id}")
+	public @ResponseBody List  getMemberDetailsByMemberId(@PathVariable("id") String id) {
+		return dataService.getMemberDetailsByMemberId(id);
 	}
 }
