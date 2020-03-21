@@ -40,5 +40,4 @@ public interface IDataService {
 	
 	List getMemberDetailsByMemberId(String memberId);
 	
-	
 }

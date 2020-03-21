@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.data.rest.db.entity.InvoiceInfo;
 import com.data.rest.db.repository.InvoiceRepository;
 import com.data.rest.dto.InvoiceJsonDTO;
 import com.data.rest.service.IDataService;
+import com.data.utils.DateUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -99,5 +101,14 @@ public class DataServiceImpl implements IDataService {
 	public List getMemberDetailsByMemberId(String memberId) {
 		return invoiceRepository.getMemberDetailsByMemberId(memberId);
 	}
+	
+		public void checkScheduler(){
+				
+	}
 
+	
+	
+	
+	
+	
 }
